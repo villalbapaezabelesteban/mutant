@@ -189,6 +189,8 @@ nbdist/
 !.vscode/extensions.json
 *.code-workspace
 
+target/
+
 ### VisualStudioCode Patch ###
 # Ignore all local history of files
 .history
