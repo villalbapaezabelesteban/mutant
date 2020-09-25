@@ -1,21 +1,44 @@
 package com.challenge.mutant.filter;
 
+import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+
 public class MutantFilter {
-	
+
+	private static final String VALID_CHARACTERS_PATTERN = "[^ACGT]";
+
+	public static Boolean containAnyInvalidCharacters(String[] mutanDNA) {
+		String dnaSecuences = Arrays.asList(mutanDNA).stream().collect(Collectors.joining());
+		Pattern pattern = Pattern.compile(VALID_CHARACTERS_PATTERN);
+		Matcher matcher = pattern.matcher(dnaSecuences);
+		int matches = 0;
+		while (matcher.find()) {
+			matches++;
+		}
+		return matches > 0;
+	}
+
 	public static final boolean isMutant(String[] mutanDNA) {
 		return isMutant(mutanDNA, 2);
 	}
 	
-	private static final boolean isMutant(String[] mutanDNA, int minMatchesRequired) {		
-		int cantHorizontally = getNumberOfSequencesHorizontally(mutanDNA);		
-		int cantVertically = getNumberOfSequencesVertically(mutanDNA);		
-		int cantDiagonally = getNumberOfSequencesDiagonally(mutanDNA);		
-		int total = (cantHorizontally + cantVertically + cantDiagonally);
+	private static final boolean isMutant(String[] mutanDNA, int minMatchesRequired) {
+		int total = 0;
+
+		if (!containAnyInvalidCharacters(mutanDNA)) {
+			int cantHorizontally = getNumberOfSequencesHorizontally(mutanDNA);
+			int cantVertically = getNumberOfSequencesVertically(mutanDNA);
+			int cantDiagonally = getNumberOfSequencesDiagonally(mutanDNA);
+			total = (cantHorizontally + cantVertically + cantDiagonally);
+		}
 		return total >= minMatchesRequired;
 	}
 	
-	public static int getNumberOfSequencesHorizontally(String[] dnaSequenceMatrix) {
-		return getNumberOfSequencesByMatchesRequired(dnaSequenceMatrix, 3);
+	public static int getNumberOfSequencesHorizontally(String[] dnaSequences) {
+		return !containAnyInvalidCharacters(dnaSequences) ? 
+				getNumberOfSequencesByMatchesRequired(dnaSequences, 3) : 0;
 	}
 	
 	private static int getNumberOfSequencesByMatchesRequired(String[] dnaSequenceMatrix, int matchesRequired) {

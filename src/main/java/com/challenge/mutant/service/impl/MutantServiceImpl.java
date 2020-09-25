@@ -8,7 +8,13 @@ import com.challenge.mutant.service.MutantService;
 
 @Service("mutantService")
 public class MutantServiceImpl implements MutantService {
-	
+
+	@Override
+	public Boolean containAnyInvalidCharacters(Person person) {
+		String[] secuences = person.getDna().getSecuences().toArray(String[]::new);
+		return MutantFilter.containAnyInvalidCharacters(secuences);
+	}
+
 	@Override
 	public Boolean isAMutant(Person person) {
 		String[] secuences = person.getDna().getSecuences().toArray(String[]::new);

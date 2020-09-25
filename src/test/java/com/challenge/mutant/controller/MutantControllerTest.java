@@ -44,9 +44,11 @@ public class MutantControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(HttpStatus.OK.value()))
                 .andReturn().getResponse().getContentAsString();
+
+        logger.info(response);
     }
 
-    //@Test
+    @Test
     public void testIsNotMutant() throws Exception {
         PersonView personView = new PersonView();
         personView.setDna(Arrays.asList(MutantFilterTest.NOT_MUTANT_DNA));
@@ -56,5 +58,21 @@ public class MutantControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(HttpStatus.FORBIDDEN.value()))
                 .andReturn().getResponse().getContentAsString();
+
+        logger.info(response);
+    }
+
+    @Test
+    public void testInvalidDNAMutant() throws Exception {
+        PersonView personView = new PersonView();
+        personView.setDna(Arrays.asList(MutantFilterTest.INVALID_MUTANT_DNA));
+
+        String response = mockMvc.perform(post("/mutant")
+                .content(objectmapper.writeValueAsString(personView))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().is(HttpStatus.FORBIDDEN.value()))
+                .andReturn().getResponse().getContentAsString();
+
+        logger.info(response);
     }
 }

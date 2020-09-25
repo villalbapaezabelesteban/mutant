@@ -18,6 +18,7 @@ public class MutantFilterTest {
 
 	public static final String[] MUTANT_DNA = {"ATGCGA","CAGTGC","TTATGT","AGAAGG","CCCCTA","TCACTG"};
 	public static final String[] NOT_MUTANT_DNA = {"ATGCAA","TAGTGC","TTGTGT","AGAAGG","CACTTA","TCACAG"};
+	public static final String[] INVALID_MUTANT_DNA = {"ATGCGA","CAGTGC","TTHTGT","AGAAGG","CCCCTA","TCACTG"};
 	public static final String[] MUTANT_DNA_WITH_ONLY_HORIZONTAL_MATCHES = {"ATGGGG","CAGTGC","TTTTGT","AGAAAA","CCCTTA","TCACTG"};
 	public static final String[] MUTANT_DNA_WITH_ONLY_VERTICAL_MATCHES = {"ATGGAG","CAGTGC","CGTTGA","CGATAA","CCCTTA","TCACTA"};
 	public static final String[] MUTANT_DNA_WITH_ONLY_DIAGONAL_MATCHES = {"ATGGAG","CAGTGC","CGATGG","TGTAAA","CCCATA","TCACTA"};
@@ -66,6 +67,13 @@ public class MutantFilterTest {
 		assertTrue(cantHorizontally < NUMBER_OF_MATCHING_SEQUENCES_REQUIRED_FOR_MUTANT_DNA);
 		assertTrue(cantVertically < NUMBER_OF_MATCHING_SEQUENCES_REQUIRED_FOR_MUTANT_DNA);
 	}
+
+	@Test
+	public void testIsInvalidMutant() {
+		this.giveToMeANotMutantDNA();
+
+		assertTrue(MutantFilter.containAnyInvalidCharacters(this.mutantDNA));
+	}
 	
 	@Test
 	public void testIsNotMutant() {
@@ -91,6 +99,10 @@ public class MutantFilterTest {
 	
 	private void giveToMeANotMutantDNA() {
 		this.mutantDNA = NOT_MUTANT_DNA;
+	}
+
+	private void giveToMeAInvalidMutantDNA() {
+		this.mutantDNA = INVALID_MUTANT_DNA;
 	}
 	
 	private void giveToMeAMutantDNAWithOnlyHorizontalMatches() {

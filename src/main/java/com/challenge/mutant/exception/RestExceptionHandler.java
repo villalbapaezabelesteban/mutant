@@ -1,6 +1,7 @@
 package com.challenge.mutant.exception;
 
 import com.challenge.mutant.exception.api.ApiError;
+import com.challenge.mutant.exception.entity.InvalidDNASequence;
 import com.challenge.mutant.exception.entity.NotMutantException;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -29,6 +30,16 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(NotMutantException.class)
     protected ResponseEntity<Object> handleNotMutantException(NotMutantException ex) {
+        ApiError apiError = new ApiError()
+                .setStatus(HttpStatus.FORBIDDEN)
+                .setTimestamp(LocalDateTime.now())
+                .setMessage(ex.getMessage())
+                .setDebugMessage(ex.getLocalizedMessage());
+        return buildResponseEntity(apiError);
+    }
+
+    @ExceptionHandler(InvalidDNASequence.class)
+    protected ResponseEntity<Object> handleNotMutantException(InvalidDNASequence ex) {
         ApiError apiError = new ApiError()
                 .setStatus(HttpStatus.FORBIDDEN)
                 .setTimestamp(LocalDateTime.now())

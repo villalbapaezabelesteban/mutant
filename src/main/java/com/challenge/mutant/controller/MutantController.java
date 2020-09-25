@@ -1,5 +1,6 @@
 package com.challenge.mutant.controller;
 
+import com.challenge.mutant.exception.entity.InvalidDNASequence;
 import com.challenge.mutant.exception.entity.NotMutantException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.MimeTypeUtils;
@@ -22,9 +23,11 @@ public class MutantController {
 	private MutantService mutantService;
 	
 	@PostMapping
-    public void isAMutant(@Valid @RequestBody PersonView personaView) throws NotMutantException {
-		if (!this.mutantService.isAMutant(PersonAdapter.adaptToDomain(personaView))) {
+    public void isAMutant(@Valid @RequestBody PersonView personaView) throws NotMutantException, InvalidDNASequence {
+		if (this.mutantService.containAnyInvalidCharacters(PersonAdapter.adaptToDomain(personaView)))
+			throw new InvalidDNASequence();
+
+		if (!this.mutantService.isAMutant(PersonAdapter.adaptToDomain(personaView)))
 			throw new NotMutantException();
-		}
     }
 }
