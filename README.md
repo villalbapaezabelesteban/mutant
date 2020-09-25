@@ -33,7 +33,7 @@ El proyecto se divide en varios submódulos:
 * **controller**:
 Expone los end-points de la api.
 * **services**:
-Servicios que son consumidos por los controllers.
+Lógica de negocio consumidos por los controllers.
 * **domain**:
 Entidades que representan a las tablas de las bases de datos.
 * **views**:
