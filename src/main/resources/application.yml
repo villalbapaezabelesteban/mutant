@@ -1,0 +1,14 @@
+server:
+  port: 2020
+spring:
+  datasource:
+    driver-class-name: org.hsqldb.jdbc.JDBCDriver
+    password: ''
+    url: jdbc:hsqldb:mem:centurylinkdb;DB_CLOSE_DELAY=-1
+    username: century
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+  mvc:
+    throw-exception-if-no-handler-found: true
